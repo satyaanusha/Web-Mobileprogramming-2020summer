@@ -10,8 +10,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -25,6 +25,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -33,7 +34,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager" selected="JavaScript Debug.task2.html">
+  <component name="RunManager" selected="JavaScript Debug.index.html (1)">
     <configuration name="index.html (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/icp2/icp2 html task/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -45,8 +46,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JavaScript Debug.task2.html" />
         <item itemvalue="JavaScript Debug.index.html (1)" />
+        <item itemvalue="JavaScript Debug.task2.html" />
         <item itemvalue="JavaScript Debug.index.html" />
       </list>
     </recent_temporary>
@@ -61,11 +62,21 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1591881617562</updated>
-      <workItem from="1591881618742" duration="5243000" />
+      <workItem from="1591881618742" duration="5499000" />
+      <workItem from="1591923143002" duration="14000" />
+      <workItem from="1591924552226" duration="27000" />
+      <workItem from="1591924590263" duration="3000" />
+      <workItem from="1591924614023" duration="548000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="444" y="130" key="#Web_Browsers" timestamp="1591924845121">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="444" y="130" key="#Web_Browsers/0.0.1280.680@0.0.1280.680" timestamp="1591924845121" />
   </component>
 </project>
