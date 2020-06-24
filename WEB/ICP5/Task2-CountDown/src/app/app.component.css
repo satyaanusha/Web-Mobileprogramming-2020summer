@@ -1,0 +1,25 @@
+.center {
+    padding: 10px;
+    position: fixed;
+    width: 500px;
+  height: 800px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    text-align: center;
+    z-index: 1;
+    background: cornflowerblue;
+}
+
+.background {
+    position: fixed;
+    height: 2%;
+    width: 60%;
+    left: 0;
+    top: 0;
+    z-index: -10;
+  background-color: whitesmoke;
+
+}
