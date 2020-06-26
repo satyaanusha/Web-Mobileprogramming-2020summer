@@ -16,7 +16,8 @@ function getGithubInfo(user) {
              $("#profile").show();
             }
             else {
-                $("#displaytext").text(" name " +name + "does not exists");
+                $("#displaytext").text(" username " +username + "does not exists");
+                 $("#profile").show();
             }
         };
 
@@ -27,11 +28,13 @@ function getGithubInfo(user) {
 
 $(document).ready(function(){
     $(document).on('keypress', '#username', function(e){
+        
+         $("#profile").hide();
         //check if the enter(i.e return) key is pressed
         if (e.which == 13) {
-            user = $(this).val();
+            username = $(this).val();
             $(this).val("");
-            response = getGithubInfo(user);
+            response = getGithubInfo(username);
 
 
         }
