@@ -1,53 +1,35 @@
 function getGithubInfo(user) {
-    //Create an instance of XMLHttpRequest class and send a GET request using it.
-    // The function should finally return the object(it now contains the response!)
-    var username='https://api.github.com/users/'+user;
-    console.log(username);
-    $.ajax({
-        type: "GET",
-        url: username,
-        dataType: 'json',
+    //1. Create an instance of XMLHttpRequest class and send a GET request using it. The function should finally return the object(it now contains the response!)
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200 ) {
 
-    }).done(function(data){
-        showUser(data);
 
-    }).fail(function(){
-        console.log("Some error Happened");
-        noSuchUser(user);
-    });
+                var response = JSON.parse(this.responseText);
+                $('.name').html('User:' + response['login']);
+                $('.id').html('Profile ID:' + response['id'])
+                $('.img').html('<img src=' + response["avatar_url"] + ' alt="img">')
+                $('.info').html('<a href=' + response['html_url'] + '>Link to profile</a>');
 
-}
+            }
+            else {
+                $('.name').html('Not valid');
+            }
+        };
 
-function showUser(user) {
-    //2. set the contents of the h2 and the two div elements in the div '#profile' with the user content
-    console.log(user);
-    document.getElementById('imgavg').src=user.avatar_url==null ? "NA" : user.avatar_url;
-    document.getElementById('txtname').innerText=user.login==null ? "NA" : user.login;
-    document.getElementById('txtid').innerText=user.id==null ? "NA" : user.id;
-    document.getElementById('txturl').innerText=user.html_url==null ? "NA" : user.html_url;
-    document.getElementById('txturl').href=user.html_url==null ? "NA" : user.html_url;
-    document.getElementById('txtrepository').innerText=user.public_repos==null ? "NA" : user.public_repos;
-    document.getElementById('txtcompany').innerText=user.company==null ? "NA" : user.company;
-    document.getElementById('txtlocation').innerText=user.location==null ? "NA" : user.location;
+    xhttp.open("GET","https://api.github.com/users/"+user,false);
+   xhttp.send();
 
 }
-function noSuchUser(username) {
-    //3. set the elements such that a suitable message is displayed
-    if(data.message == "Not Found" || username == '') {
-        alert("User not found");
-    }
-}
-$(document).ready(function () {
-    $(document).on('keypress', '#username', function (e) {
+
+$(document).ready(function(){
+    $(document).on('keypress', '#username', function(e){
         //check if the enter(i.e return) key is pressed
         if (e.which == 13) {
-            //get what the user enters
-            username = $(this).val();
-            //reset the text typed in the input
+            user = $(this).val();
             $(this).val("");
-            //get the user's information and store the respsonse
-            getGithubInfo(username);
-            //if the response is successful show the user's details
+            response = getGithubInfo(user);
+
 
         }
     })
