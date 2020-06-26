@@ -1,0 +1,34 @@
+<!-- 2.1 -->
+<label>
+ Days
+  <input #days type="number" min="0" max="100" placeholder="days"
+         [value]="d.getDays()"
+         (change)="d.updateState(days.value, 'days')"/>
+</label>
+<label>
+  Hours
+  <input #hours type="number" min="0" max="59" placeholder="hours"
+  [value]="d.getHours()"
+  (change)="d.updateState(hours.value, 'hours')"/>
+</label>
+<label>
+  Minutes
+  <input #minutes type="number" min="0" max="59" placeholder="minutes"
+  [value]="d.getMinutes()"
+  (change)="d.updateState(minutes.value, 'minutes')"/>
+</label>
+<label>
+  Seconds
+  <input #seconds type="number" min="0" max="59" placeholder="seconds"
+  [value]="d.getSeconds()"
+  (change)="d.updateState(seconds.value, 'seconds')"/>
+</label>
+<!-- End 2.1 -->
+<br>
+<div class ="date">
+  <P> June 23rd 2020 </P>
+
+</div>
+
+
+

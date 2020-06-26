@@ -1,0 +1,41 @@
+<!-- 4.2 -->
+<div class="bc">
+<p>Count Down Timer</p>
+</div>
+<div class ="ab">
+  <form action="/action_page.php">
+    <label for="assignment"> Event Name<br/></label>
+    <select id="assignment" name="cars">
+      <option value="Excercise"> Excercise</option>
+      <option value="Assignmnet Submission">Assignment Submission</option>
+      <option value="Project Submission">Project Submission</option>
+      <option value="Fee Payment">Fee Payment</option>
+    </select>
+  </form>
+</div><ng-container *ngIf="intervalObs$ | async as clock; else default">
+  {{clock | timeFormat}}
+</ng-container>
+<ng-template #default>00:00:00:00</ng-template>
+<div class = "da">
+  <p> Days | Hrs | Min | Sec</p>
+</div>
+
+
+
+<!-- 4.2 -->
+
+<div style="padding: 1px;">
+  <button #start type="button"><fa-icon [icon]="faPlay" style="color:mediumseagreen"></fa-icon></button>
+  <button #pause type="button"><fa-icon [icon]="faPause" style="color:dodgerblue"></fa-icon></button>
+  <button #reset type="button"><fa-icon [icon]="faSquare" style="color:indianred"></fa-icon></button>
+</div>
+
+<div class="description" *ngIf="selectedDrillObs$ | async as selectedDrill">
+  {{selectedDrill.description}}
+</div>
+
+
+
+
+
+

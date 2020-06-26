@@ -1,0 +1,33 @@
+button {
+    padding: 6px;
+    border-radius: 6px;
+    background: #FFFFFF;
+    margin: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    border: 1px solid #FFFFFF;
+
+  }
+
+  ng-container {
+    font-size: 48px;
+  }
+.da{
+  font-size: 54px;
+}
+
+
+
+:host {
+  font-size: 100px;
+  color: #FFFFFF;
+}
+
+.description {
+  font-size: 20px;
+}
+.ab {
+  font-size: 40px;
+}
+.bc {
+  font-size: 40px;
+}
