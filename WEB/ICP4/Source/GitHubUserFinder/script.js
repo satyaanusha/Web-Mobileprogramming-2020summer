@@ -8,11 +8,9 @@ function getGithubInfo(user) {
                 $(".avatar").html("<img height='200' width='200' src='"+ user.avatar_url+"'/>");
                 var link = "<a target='_blank' href='"+user.html_url+"'> Git Hub URL  </a>";
             $(".information").html("<label><u><strong>User Information</strong></u></label>" +
-        "<br/><br/><label style='color: #660939'>Login Name : </label>"+ user.login
-        +"<br/><label style='color: #661d22'> Login ID : </label>"+ user.id
-        +"<br/><label style='color: #661d22'> Node ID : </label>"+ user.node_id
-        +"<br/> <label style='color: #66111c'>GitHub URL : </label>"+link
-        +"<br/> <label style='color: #661d36'>GitHub Repositories Of the User : </label>"+ user.public_repos);
+        "<br/><br/><label style='color: #660939'>User Name : </label>"+ user.login
+        +"<br/><label style='color: #660939'> Profile ID : </label>"+ user.id
+        +"<br/> <label style='color: MediumSeaGreen'>Link to Profile: </label>"+link
              $("#profile").show();
             }
             else {
