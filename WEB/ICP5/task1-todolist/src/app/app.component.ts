@@ -1,45 +1,65 @@
-import { Component } from '@angular/core';
-import { FormGroup} from '@angular/forms';
+import { Component,trigger,animate,style,transition,keyframes } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  animations:[
+   trigger("moveInLeft",[
+      transition("void=> *",[style({transform:"translateX(300px)"}),
+        animate(200,keyframes([
+         style({transform:"translateX(300px)"}),
+         style({transform:"translateX(0)"})
+ 
+          ]))]),
+
+        transition("*=>void",[style({transform:"translateX(0px)"}),
+        animate(100,keyframes([
+         style({transform:"translateX(0px)"}),
+         style({transform:"translateX(300px)"})
+ 
+          ]))])    
+     
+   	])
+
+  ]
 })
 export class AppComponent {
-  items = []; // define list of pending items
-  comItems = []; // define list of completed items
+  todoArray=[];
+  todo;
+  //todoForm: new FormGroup()
 
-  // code to push new item
-  submitNewItem(event) {
-    const index: number = this.items.indexOf(event.taskName);
-    if (index !== -1) {
-      alert('Item already exists');
-    } else {
-      this.items.push(event.taskName);
-    }
+
+   addTodo(value){
+    if(value!==""){
+     this.todoArray.push(value)
+     todoForm.resetForm()
+    //console.log(this.todos) 
+  }else{
+    alert('Field required **')
+  }
+    
   }
 
-  // code to complete item and push it into complete item list
-  completeItem(item: string) {
-    const index: number = this.items.indexOf(item);
-    if (index !== -1) {
-      this.items.splice(index, 1);
-      this.comItems.push(item);
-    }
+  /*delete item*/
+  deleteItem(todo){
+  	for(let i=0 ;i<= this.todoArray.length ;i++){
+  		if(todo== this.todoArray[i]){
+  			this.todoArray.splice(i,1)
+  		}
+  	}
   }
 
-  // code to delete item either from completed or pending items list
-  deleteItem(item: string) {
-    let index: number = this.items.indexOf(item);
-    if (index !== -1) {
-      this.items.splice(index, 1);
-    } else {
-      index = this.comItems.indexOf(item);
-      if (index !== -1) {
-        this.comItems.splice(index, 1);
-      }
+  // submit Form
+  todoSubmit(value:any){
+     if(value!==""){
+    this.todoArray.push(value.todo)
+     //this.todoForm.reset()
+    }else{
+      alert('Field required **')
     }
+    
   }
-
+ 
 }
+
