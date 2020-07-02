@@ -1,3 +1,5 @@
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import * as moment from 'moment';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { fromEvent, interval, merge, of, range, BehaviorSubject, Subject } from 'rxjs';
 import { mapTo, scan, switchMap, takeUntil, concatMap, delay, mergeMap, tap, skipWhile, map } from 'rxjs/operators';
@@ -9,106 +11,95 @@ import { SynthesisService } from 'src/app/services/synthesis.service';
 import { ContentfulService } from 'src/app/services/contentful.service';
 
 @Component({
-  selector: 'app-countdown',
+  selector   : 'app-countdown',
   templateUrl: './countdown.component.html',
-  styleUrls: ['./countdown.component.css']
+  styleUrls    : ['./countdown.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class CountdownComponent implements OnInit, AfterViewInit {
-
-  faPlay = faPlay;
-  faPause = faPause;
-  faSquare = faSquare;
-
+export class CountdownComponent implements OnInit, OnDestroy
+{
+  @Input('eventDate')
+  eventDate;
+  countdown: any;
   @ViewChild('start', { static: true })
   startBtn: ElementRef;
-
   @ViewChild('pause', { static: true })
   pauseBtn: ElementRef;
-
   @ViewChild('reset', { static: true })
   resetBtn: ElementRef;
 
-  @ViewChild('drillSelect', { static: true })
-  drillSelect: ElementRef;
+  private _unsubscribeAll: Subject<any>;
+  constructor()
+  {
+    // Set the defaults
+    this.countdown = {
+      days   : '',
+      hours  : '',
+      minutes: '',
+      seconds: ''
+    };
 
-  drills$;
-  techniques = [];
-  selectedDrill$ = new Subject();
-  selectedDrillObs$;
-
-  intervalObs$;
-  max = 0;
-  min = 0;
-
-  constructor(public d: InputToCountdownDirective, private s: SynthesisService, private c: ContentfulService) { }
-
-  ngOnInit() {
-    this.drills$ = this.c.getDrills().pipe(tap(val => this.selectedDrill$.next(val[0])));
-    this.selectedDrillObs$ = this.selectedDrill$.asObservable().pipe(map(val => {
-      const drill = this.c.getSelectedDrill(val);
-      this.techniques = drill.techniques;
-      return drill;
-    }))
+    // Set the private defaults
+    this._unsubscribeAll = new Subject();
   }
 
-  ngAfterViewInit(): void {
-    // 3.1
-    this.s.updateMessage('hello');
+  /**
+   * On init
+   */
+  ngOnInit(): void
+  {
+    const currDate = moment();
+    const eventDate = moment(this.eventDate);
     const start$ = fromEvent(this.startBtn.nativeElement, 'click').pipe(mapTo(true));
     const pause$ = fromEvent(this.pauseBtn.nativeElement, 'click').pipe(mapTo(false));
     const reset$ = fromEvent(this.resetBtn.nativeElement, 'click').pipe(mapTo(null));
-    const zero$ = new Subject();
-    const stateChange$ = this.d.obs$.pipe(mapTo(null));
-    this.intervalObs$ = merge(start$, pause$, reset$, stateChange$, zero$).pipe(
-      switchMap(isCounting => {
-        if (isCounting === null) return of(null);
-        return isCounting ? interval(1000) : of();
-      }),
-      scan((accumulatedValue, currentValue) => {
-        if (accumulatedValue === 0 && currentValue !== null) {
-          zero$.next(null);
-          return accumulatedValue;
-        }
-        if (currentValue === null || !accumulatedValue) return this.d.getTotalSeconds();
-        return --accumulatedValue;
-      })
-    );
-    // End 3.1
+    // Get the difference in between the current date and event date in seconds
+    let diff = eventDate.diff(currDate, 'seconds');
+    // Calculate the remaining time for the first time so there will be no
+    // delay on the countdown
+    this.countdown = this._secondsToRemaining(diff);
+    // Create a subscribable interval
+    const countDown = interval(1000)
+      .pipe(
+        map(value => {
+          return diff = diff - 1;
+        }),
+        map(value => {
+          return this._secondsToRemaining(value);
+        })
+      );
 
-    this.d.intervalObs$.subscribe(val => {
-      console.log(val)
-      this.max = val.max;
-      this.min = val.min;
-    }); // TODO: Don't do this, Brain is alseep.
-
-
-    merge(start$, pause$, reset$, zero$).pipe(
-      switchMap(isCounting => {
-        const random = () => {
-          console.log(this.min);
-          console.log(this.max);
-
-          const value = (this.min * 1000) + (Math.floor((Math.random() * (this.max + 1 - this.min))) * 1000)
-          console.log(value);
-          return value;
-        };
-        if (isCounting === null) return of(null);
-        return isCounting ? interval(1000).pipe(
-          concatMap(val => {
-            return of(val).pipe(delay(random()), tap(val => {
-              const arrayLength = this.techniques.length;
-              const randValue = Math.floor((Math.random() * arrayLength))
-              const message = this.techniques[randValue];
-              //this.s.updateMessage(message);
-              //this.s.speak();
-            }));
-          })
-        ) : of();
-      }),
-    ).subscribe(console.log) // TODO: Don't do this either, async pipe later or something cute
+    // Subscribe to the countdown interval
+    countDown
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(value => {
+        this.countdown = value;
+      });
   }
 
-  drillChanged(value) {
-    this.selectedDrill$.next(value);
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void
+  {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
+
+  /**
+   * Converts given seconds to a remaining time
+   */
+  private _secondsToRemaining(seconds): any
+  {
+    const timeLeft = moment.duration(seconds, 'seconds');
+
+    return {
+      days   : timeLeft.asDays().toFixed(0),
+      hours  : timeLeft.hours(),
+      minutes: timeLeft.minutes(),
+      seconds: timeLeft.seconds()
+    };
+  }
+
 }
